@@ -1,30 +1,44 @@
 CREATE SCHEMA IF NOT EXISTS core;
 
+
 CREATE TABLE IF NOT EXISTS core.product_type (
-   product_pn INTEGER PRIMARY KEY NOT NULL,
-   name VARCHAR NOT NULL  
+   id INTEGER GENERATED ALWAYS AS IDENTITY NOT NULL
+   product_name VARCHAR PRIMARY KEY NOT NULL, 
+   product_pn VARCHAR NOT NULL  
 );
 COMMENT ON TABLE core.product_type IS 'Виды продукта.';
 COMMENT ON COLUMN core.product_type.product_pn IS 'PN Продукта.';
-COMMENT ON COLUMN core.product_type.name IS 'Имя Продукта';
+COMMENT ON COLUMN core.product_type.product_name IS 'Имя Продукта';
+
 
 CREATE TABLE IF NOT EXISTS core.production (
     id INTEGER GENERATED ALWAYS AS IDENTITY NOT NULL,
-    product_pn INTEGER NOT NULL,
+    product_name VARCHAR NOT NULL,
     quantity INTEGER,
     date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_product_pn FOREIGN KEY (product_pn) REFERENCES core.product_type (product_pn) ON DELETE RESTRICT,
+    CONSTRAINT fk_product_name FOREIGN KEY (product_name) REFERENCES core.product_type (product_name) ON DELETE RESTRICT,
     CONSTRAINT pk_id PRIMARY KEY (id)
 );
 COMMENT ON TABLE core.production IS 'Произведенная продукция.';
 COMMENT ON COLUMN core.production.id IS 'Уникальный идентификатор кортежа.';
-COMMENT ON COLUMN core.production.product_pn IS 'PN Продукта.';
+COMMENT ON COLUMN core.production.product_name IS 'Имя Продукта.';
 COMMENT ON COLUMN core.production.quantity IS 'Произведенное количество.';
 COMMENT ON COLUMN core.production.date IS 'Время производства продукта.';
 
---Наполнение таблиц--
+
+INSERT INTO core.product_type (product_name, product_pn)
 SELECT DISTINCT
-       REPLACE(SPLIT_PART(DATA, ']', 1), '[', '') AS pn, 
-       SUBSTRING(data from '](.*?);') AS name
+       SUBSTRING(data from '](.*?);')::VARCHAR AS product_name,
+       REPLACE(SPLIT_PART(DATA, ']', 1), '[', '')::VARCHAR AS product_pn  
 FROM stage.raw_data
 WHERE data LIKE '%[%';
+
+
+--ДЕБАГ
+SELECT 
+    SUBSTRING(data from '](.*?);')::VARCHAR AS product_name,
+	REPLACE(SPLIT_PART(DATA, ';', 2), '[', '')::INT AS quantity
+FROM stage.raw_data AS src
+LEFT JOIN core.product_type AS pt ON SUBSTRING(src.data from '](.*?);')::VARCHAR = pt.product_name AND REPLACE(SPLIT_PART(src.DATA, ']', 1), '[', '')::VARCHAR = pt.product_pn
+WHERE data LIKE '%[%';
+--
