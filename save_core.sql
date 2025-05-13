@@ -21,3 +21,10 @@ COMMENT ON COLUMN core.production.id IS 'Уникальный идентифик
 COMMENT ON COLUMN core.production.product_pn IS 'PN Продукта.';
 COMMENT ON COLUMN core.production.quantity IS 'Произведенное количество.';
 COMMENT ON COLUMN core.production.date IS 'Время производства продукта.';
+
+--Наполнение таблиц--
+SELECT DISTINCT
+       REPLACE(SPLIT_PART(DATA, ']', 1), '[', '') AS pn, 
+       SUBSTRING(data from '](.*?);') AS name
+FROM stage.raw_data
+WHERE data LIKE '%[%';
