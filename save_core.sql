@@ -2,25 +2,28 @@ CREATE SCHEMA IF NOT EXISTS core;
 
 
 CREATE TABLE IF NOT EXISTS core.product_type (
-   id INTEGER GENERATED ALWAYS AS IDENTITY NOT NULL
-   product_name VARCHAR PRIMARY KEY NOT NULL, 
-   product_pn VARCHAR NOT NULL  
+   product_id INTEGER GENERATED ALWAYS AS IDENTITY NOT NULL,
+   product_name VARCHAR NOT NULL, 
+   product_pn VARCHAR NOT NULL,
+   CONSTRAINT pk_product_id PRIMARY KEY (product_id)
 );
 COMMENT ON TABLE core.product_type IS 'Виды продукта.';
-COMMENT ON COLUMN core.product_type.product_pn IS 'PN Продукта.';
+COMMENT ON COLUMN core.product_type.product_id IS 'ID Продукта.';
 COMMENT ON COLUMN core.product_type.product_name IS 'Имя Продукта';
-
+COMMENT ON COLUMN core.product_type.product_pn IS 'PN Продукта.';
 
 CREATE TABLE IF NOT EXISTS core.production (
     id INTEGER GENERATED ALWAYS AS IDENTITY NOT NULL,
+    product_id INTEGER NOT NULL,
     product_name VARCHAR NOT NULL,
     quantity INTEGER,
     date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_product_name FOREIGN KEY (product_name) REFERENCES core.product_type (product_name) ON DELETE RESTRICT,
+    CONSTRAINT fk_product_id FOREIGN KEY (product_id) REFERENCES core.product_type (product_id) ON DELETE RESTRICT,
     CONSTRAINT pk_id PRIMARY KEY (id)
 );
 COMMENT ON TABLE core.production IS 'Произведенная продукция.';
 COMMENT ON COLUMN core.production.id IS 'Уникальный идентификатор кортежа.';
+COMMENT ON COLUMN core.production.product_id IS 'ID Продукта.';
 COMMENT ON COLUMN core.production.product_name IS 'Имя Продукта.';
 COMMENT ON COLUMN core.production.quantity IS 'Произведенное количество.';
 COMMENT ON COLUMN core.production.date IS 'Время производства продукта.';
