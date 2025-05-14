@@ -39,7 +39,7 @@ COMMENT ON COLUMN core.production.date IS 'Время производства �
 */
 MERGE INTO core.product_type pt
 USING (
-    SELECT SUBSTRING(data from '](.*?);')::VARCHAR AS product_name, 
+    SELECT DISTINCT SUBSTRING(data from '](.*?);')::VARCHAR AS product_name, 
     REPLACE(SPLIT_PART(DATA, ']', 1), '[', '')::VARCHAR AS product_pn 
     FROM stage.raw_data AS rd 
     WHERE data LIKE '%[%') AS src  
@@ -51,7 +51,7 @@ INSERT (product_name, product_pn) VALUES (src.product_name, src.product_pn);
 INSERT INTO core.production (product_id, quantity)
 SELECT 
     pt.product_id,
-	REPLACE(SPLIT_PART(DATA, ';', 2), '[', '')::INT AS quantity
+	  REPLACE(SPLIT_PART(DATA, ';', 2), '[', '')::INT AS quantity
 FROM stage.raw_data AS src
 LEFT JOIN core.product_type AS pt ON SUBSTRING(src.data from '](.*?);')::VARCHAR = pt.product_name AND REPLACE(SPLIT_PART(src.DATA, ']', 1), '[', '')::VARCHAR = pt.product_pn
 WHERE data LIKE '%[%';
