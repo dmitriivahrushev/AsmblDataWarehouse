@@ -77,13 +77,9 @@ def transform_file():
             else:
                 writer.writerow([clear_col1, clear_col2])
 
-   
-            
-        
-    
-
+     
 if __name__=="__main__":
     load_dotenv()
-    #load_dataset()
+    load_dataset()
     transform_file()
     
