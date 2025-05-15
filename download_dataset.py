@@ -61,8 +61,8 @@ def transform_file():
             range_row = len(sheet['A'])
             continue
 
-# Ошибка при загрузке файла в Postgres ругается на 3 строку.
-    with open(PATH_TO_CSV, 'a', encoding='utf-8') as file:
+
+    with open(PATH_TO_CSV, 'a', newline='', encoding='utf-8') as file:
         writer = csv.writer(file, delimiter=',')
         for i in range(1, range_row):
             raw_data_col1 = f'{sheet['A' + str(i)].value}'
