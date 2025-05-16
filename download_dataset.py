@@ -10,7 +10,7 @@ from openpyxl import load_workbook
    
 def load_dataset():
     """Импорт паролей для авторизации."""
-    URL = 'https://odoo.b4com.tech/web/login'
+    URL = 'https://odoo.b4com.tech/web/login' 
     LOGIN = os.getenv('ODDO_LOGIN')
     PASSWORD = os.getenv('ODOO_PASSWORD')
 
@@ -40,7 +40,8 @@ def load_dataset():
     filter = driver.find_element(By.XPATH, '//span[.="Фильтры"]')
     actions.move_to_element(filter).perform()
     time.sleep(5)
-    driver.find_element(By.XPATH, '//span[.="Произведено за сегодня"]').click() 
+    driver.find_element(By.XPATH, '//span[.="Произведено за сегодня"]').click()
+    #driver.find_element(By.XPATH, '//span[.="Произведено за два дня"]').click()  
     time.sleep(5)
     driver.find_element(By.XPATH, '//button[@class="btn btn-light o_switch_view o_pivot oi oi-view-pivot"]').click()
     time.sleep(5)
@@ -48,23 +49,22 @@ def load_dataset():
     time.sleep(20)
 
 
-
 def transform_file():
     """Сохрание файла в формате csv и пермещение в C:\Temp"""
-    PATH_TO_XLSX = 'C:\\Users\\w3bfr\\Downloads'
-    PATH_TO_CSV = 'C:\\Temp\\raw_data.csv'  
+    PATH_TO_XLSX = os.getenv('PATH_TO_XLSX')
+    PATH_TO_CSV = os.getenv('PATH_TO_CSV') 
     files = os.listdir(PATH_TO_XLSX)
     for file in files:
         if file.endswith('.xlsx'):
             book = load_workbook(os.path.join(PATH_TO_XLSX, file))
             sheet = book.active
-            range_row = len(sheet['A'])
+            range_row = sheet.max_row
             continue
 
 
     with open(PATH_TO_CSV, 'a', newline='', encoding='utf-8') as file:
         writer = csv.writer(file, delimiter=',')
-        for i in range(1, range_row):
+        for i in range(1, range_row + 1):
             raw_data_col1 = f'{sheet['A' + str(i)].value}'
             raw_data_col2 = f'{sheet['B' + str(i)].value}'
             clear_col1 = raw_data_col1.strip()
