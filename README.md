@@ -1,4 +1,5 @@
 # ProductionDashboard
+![DWH](/images/DWH.jpg)
 **Настройка**
 - Установить пути в файле .env 
   PATH_TO_XLSX = 'Путь куда грузим данные из источника.' 
@@ -14,7 +15,8 @@
   Загрузка raw_data из источника в stage слой.  
 - Запуск [task2](task2_core_insert.sql): 
   Загрузка в core слой. 
- 
+- Запуск [task3](task3_data_mart_insert.sql)
+  Загрузка в data_mart слой.
 
  
 
