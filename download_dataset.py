@@ -8,14 +8,13 @@ from dotenv import load_dotenv
 from openpyxl import load_workbook
 
 
-"""Импорт паролей для авторизации."""
-URL = 'https://odoo.b4com.tech/web/login' 
-LOGIN = os.getenv('ODDO_LOGIN')
-PASSWORD = os.getenv('ODOO_PASSWORD')
+"""Импорт password и path для авторизации."""
+ODDO_URL = os.getenv('ODDO_URL')
+ODDO_LOGIN = os.getenv('ODDO_LOGIN')
+ODOO_PASSWORD = os.getenv('ODOO_PASSWORD')
 
 PATH_TO_XLSX = os.getenv('PATH_TO_XLSX')
 PATH_TO_CSV = os.getenv('PATH_TO_CSV') 
-
 
 
 def del_files():
@@ -48,8 +47,8 @@ def load_dataset():
 
     find_login = driver.find_element(By.ID, 'login')
     find_password = driver.find_element(By.ID, 'password')
-    find_login.send_keys(LOGIN)
-    find_password.send_keys(PASSWORD)
+    find_login.send_keys(ODDO_LOGIN)
+    find_password.send_keys(ODOO_PASSWORD)
     time.sleep(2)
 
     driver.find_element(By.XPATH, '//button[.="Войти"]').click()

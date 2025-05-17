@@ -1,9 +1,10 @@
-/*Создание схемы и таблиц.
+/*Создание схемы и таблиц + наполнение.
   core: Схема для очищенных, нормализованных данных.
   core.product_type: Таблица для хранения типов продукта.
   core.production: Таблица для хранения общей выработки продукта.
 */
 
+BEGIN; 
 CREATE SCHEMA IF NOT EXISTS core;
 
 
@@ -39,10 +40,11 @@ COMMENT ON COLUMN core.production.date IS 'Время производства �
 */
 MERGE INTO core.product_type pt
 USING (
-    SELECT DISTINCT SUBSTRING(data from '](.*?);')::VARCHAR AS product_name, 
-    REPLACE(SPLIT_PART(DATA, ']', 1), '[', '')::VARCHAR AS product_pn 
+    SELECT DISTINCT 
+    SUBSTRING(data from '\s(.*),')::VARCHAR AS product_name,
+    SPLIT_PART(data, ' ', 1)::VARCHAR AS product_pn
     FROM stage.raw_data AS rd 
-    WHERE data LIKE '%[%') AS src  
+    WHERE data LIKE '% %,%') AS src  
 ON pt.product_name = src.product_name AND pt.product_pn = src.product_pn
 WHEN NOT MATCHED THEN
 INSERT (product_name, product_pn) VALUES (src.product_name, src.product_pn);
@@ -51,7 +53,8 @@ INSERT (product_name, product_pn) VALUES (src.product_name, src.product_pn);
 INSERT INTO core.production (product_id, quantity)
 SELECT 
     pt.product_id,
-	  REPLACE(SPLIT_PART(DATA, ';', 2), '[', '')::INT AS quantity
+	SPLIT_PART(data, ',', -1)::INT AS quantity
 FROM stage.raw_data AS src
-LEFT JOIN core.product_type AS pt ON SUBSTRING(src.data from '](.*?);')::VARCHAR = pt.product_name AND REPLACE(SPLIT_PART(src.DATA, ']', 1), '[', '')::VARCHAR = pt.product_pn
-WHERE data LIKE '%[%';
+LEFT JOIN core.product_type AS pt ON SUBSTRING(src.data from '\s(.*),')::VARCHAR = pt.product_name AND SPLIT_PART(src.data, ' ', 1)::VARCHAR = pt.product_pn
+WHERE data LIKE '% %,%';
+COMMIT;
