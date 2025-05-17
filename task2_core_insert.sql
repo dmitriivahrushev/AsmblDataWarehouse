@@ -1,3 +1,9 @@
+/*Создание схемы и таблиц + наполнение.
+  core: Схема для очищенных, нормализованных данных.
+  core.product_type: Таблица для хранения типов продукта.
+  core.production: Таблица для хранения общей выработки продукта.
+*/
+
 BEGIN; 
 CREATE SCHEMA IF NOT EXISTS core;
 
@@ -49,6 +55,5 @@ SELECT
     pt.product_id,
 	TRIM(SPLIT_PART(data, ',', -1))::INT AS quantity
 FROM stage.raw_data AS src
-LEFT JOIN core.product_type AS pt ON SUBSTRING(src.data from '\s(.*),')::VARCHAR = pt.product_name AND SPLIT_PART(src.data, ' ', 1)::VARCHAR = pt.product_pn
-WHERE data LIKE '% %,%';
+LEFT JOIN core.product_type AS pt ON TRIM(REPLACE(SUBSTRING(src.data from '\s(.*),'), ']', ''))::VARCHAR = pt.product_name AND TRIM(CONCAT(SPLIT_PART(src.data, ']', 1), ']'))::VARCHAR = pt.product_pn;
 COMMIT;
