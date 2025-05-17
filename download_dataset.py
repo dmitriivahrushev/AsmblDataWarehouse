@@ -7,13 +7,38 @@ from selenium.webdriver.common.action_chains import ActionChains
 from dotenv import load_dotenv
 from openpyxl import load_workbook
 
-   
-def load_dataset():
-    """Импорт паролей для авторизации."""
-    URL = 'https://odoo.b4com.tech/web/login' 
-    LOGIN = os.getenv('ODDO_LOGIN')
-    PASSWORD = os.getenv('ODOO_PASSWORD')
 
+"""Импорт паролей для авторизации."""
+URL = 'https://odoo.b4com.tech/web/login' 
+LOGIN = os.getenv('ODDO_LOGIN')
+PASSWORD = os.getenv('ODOO_PASSWORD')
+
+PATH_TO_XLSX = os.getenv('PATH_TO_XLSX')
+PATH_TO_CSV = os.getenv('PATH_TO_CSV') 
+
+
+
+def del_files():
+    """Удаление датасета прошлой недели."""
+    files_XLSX = os.listdir(PATH_TO_XLSX)
+    for file_XLSX in files_XLSX:
+        if file_XLSX.endswith('.xlsx'):
+            full_file_path = os.path.join(PATH_TO_XLSX, file_XLSX)
+            try:
+                os.remove(full_file_path)
+                print(f'Файл успешно удалён {file_XLSX}')
+            except Exception as e:
+                print('Произошла ошибка удаления: {e}')
+    
+    """Удаление raw_data.csv."""
+    try:
+        os.remove(PATH_TO_CSV)
+        print(f'Файл успешно удалён: {PATH_TO_CSV}')
+    except Exception as e:
+        print('Произошла ошибка удаления: {e}')
+    
+
+def load_dataset():
     """Скачать dataset.XLSX"""
     driver = webdriver.Chrome()
     driver.maximize_window()
@@ -50,9 +75,7 @@ def load_dataset():
 
 
 def transform_file():
-    """Сохрание файла в формате csv и пермещение в C:\Temp"""
-    PATH_TO_XLSX = os.getenv('PATH_TO_XLSX')
-    PATH_TO_CSV = os.getenv('PATH_TO_CSV') 
+    """Сохрание файла в формате csv."""   
     files = os.listdir(PATH_TO_XLSX)
     for file in files:
         if file.endswith('.xlsx'):
@@ -80,6 +103,9 @@ def transform_file():
      
 if __name__=="__main__":
     load_dotenv()
+    del_files()
     load_dataset()
     transform_file()
+
+    
     
