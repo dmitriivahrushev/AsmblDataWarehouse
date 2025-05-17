@@ -102,8 +102,8 @@ def transform_file():
      
 if __name__=="__main__":
     load_dotenv()
-    #del_files()
-    #load_dataset()
+    del_files()
+    load_dataset()
     transform_file()
 
     
