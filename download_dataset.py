@@ -29,7 +29,7 @@ def del_files():
             except Exception as e:
                 print('Произошла ошибка удаления: {e}')
     
-    """Удаление raw_data.csv."""
+    # Удаление raw_data.csv.
     try:
         os.remove(PATH_TO_CSV)
         print(f'Файл успешно удалён: {PATH_TO_CSV}')
@@ -38,7 +38,7 @@ def del_files():
     
 
 def load_dataset():
-    """Скачать dataset.XLSX"""
+    """Загрузка Датасета из Odoo .XLSX"""
     driver = webdriver.Chrome()
     driver.maximize_window()
     driver.get(URL)
@@ -102,8 +102,8 @@ def transform_file():
      
 if __name__=="__main__":
     load_dotenv()
-    del_files()
-    load_dataset()
+    #del_files()
+    #load_dataset()
     transform_file()
 
     
