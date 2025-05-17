@@ -109,7 +109,7 @@ def transform_file():
     current_dir = os.path.join(os.curdir, 'log.txt')
     with open (current_dir, 'a', newline='', encoding='utf-8') as file:
         current_time = dt.now()
-        file.write(f'log [{current_time.strftime("%d/%m/%Y, %H:%M:%S")}]\n')
+        file.write(f'[DATA INFO] [{current_time.strftime("%d/%m/%Y, %H:%M:%S")}]\n')
         for key, values in data_quality.items():
             file.write(f'{key}: {values}\n')
 
