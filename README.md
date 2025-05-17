@@ -11,7 +11,7 @@
    COPY stage.raw_data (data) FROM '**Ваш путь**' WITH (FORMAT CSV, HEADER FALSE, DELIMITER ';', ENCODING 'utf-8');
 
 **Схема работы ETL:** 
-- Запуск [task1](download_dataset.py):
+- Запуск [task1](task1_download_dataset.py):
   Загрузка данных с сайта, очистка, логирование.
 - Запуск [task2](task1_raw_insert.sql): 
   Загрузка raw_data в stage слой.  
