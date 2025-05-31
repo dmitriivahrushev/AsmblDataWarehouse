@@ -21,7 +21,7 @@
 ├──.gitignore/           # Файлы, игнорируемые Git-ом.
 ├── docker-compose.yaml/ # Плагины Airflow.
 ├── README.md/           # Информация о проекте.
-└──  requirements.txt/    # Зависимости проекта.
+└──  requirements.txt/   # Зависимости проекта.
 ```
 
 ### 🔨 Настройка
