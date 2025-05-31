@@ -2,24 +2,24 @@
 ![DWH](/images/DWH.jpg)
 **Настройка**
 - Клонируем репозиторий.
-- Поднимаем сервисы с помощю [docker-compose](docker-compose.yaml).
+- Поднимаем сервисы с помощю [docker-compose](docker-compose.yaml)
 ~~~
 docker compose up
 ~~~
-- В браузере переходим на http://localhost:8080.
-- Вводим логин и пароль (airflow, airflow).
-- Настриваем коннектор
-  Conn Id: postgres_dwh,
-  Conn Type: postgres,
-  Host: postgres_dwh,
-  Port: 5432
-- В папке tmp_data лежит [dataset](/tmp_data/raw_data%20—%20копия.xlsx).
+- В браузере переходим на http://localhost:8080
+- Вводим логин и пароль (airflow, airflow)
+- Настриваем коннектор.  
+  Conn Id: postgres_dwh  
+  Conn Type: postgres   
+  Host: postgres_dwh    
+  Port: 5432 
+- В папке tmp_data лежит [dataset](/tmp_data/raw_data%20—%20копия.xlsx)
 - Готово, теперь можно выставлять нужное время запуска DAG и база данных будет напоняться.
-- Что бы подключиться к postgres:15 
-  POSTGRES_USER: admin
-  POSTGRES_PASSWORD: admin
-  POSTGRES_DB: dwh_db
-  ports: 5433:5432
+- Что бы подключиться к postgres:15  
+  POSTGRES_USER: admin  
+  POSTGRES_PASSWORD: admin  
+  POSTGRES_DB: dwh_db  
+  ports: 5433:5432  
   
 
 
