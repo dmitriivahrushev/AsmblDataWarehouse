@@ -1,23 +1,36 @@
 # ProductionDashboard
 ![DWH](/images/DWH.jpg)
 **Настройка**
-- Установить пути в файле .env  
-   PATH_TO_XLSX = 'Путь куда грузим данные из источника.'  
-   PATH_TO_CSV = 'Путь куда сохраняем обработанные данные. Готовы к загрузке в БД.'  
-   URL = 'URL сайта.'  
-   ODDO_LOGIN = 'Логин от Аккаунта Odoo.'  
-   ODOO_PASSWORD = 'Пароль от Аккаунта Odoo.'  
-- Установить путь загрузки данных в файле [task1](task1_raw_insert.sql)  
-   COPY stage.raw_data (data) FROM '**Ваш путь**' WITH (FORMAT CSV, HEADER FALSE, DELIMITER ';', ENCODING 'utf-8');
+- Клонируем репозиторий.
+- Поднимаем сервисы с помощю [docker-compose](docker-compose.yaml).
+~~~
+docker compose up
+~~~
+- В браузере переходим на http://localhost:8080.
+- Вводим логин и пароль (airflow, airflow).
+- Настриваем коннектор
+  Conn Id: postgres_dwh,
+  Conn Type: postgres,
+  Host: postgres_dwh,
+  Port: 5432
+- В папке tmp_data лежит [dataset](/tmp_data/raw_data%20—%20копия.xlsx).
+- Готово, теперь можно выставлять нужное время запуска DAG и база данных будет напоняться.
+- Что бы подключиться к postgres:15 
+  POSTGRES_USER: admin
+  POSTGRES_PASSWORD: admin
+  POSTGRES_DB: dwh_db
+  ports: 5433:5432
+  
+
 
 **Схема работы ETL:** 
-- Запуск [task1](task1_download_dataset.py):
+- Запуск [transform_file](dags/transform_file.py):
   Загрузка данных с сайта, очистка, логирование.
-- Запуск [task2](task1_raw_insert.sql): 
+- Запуск [insert_stage](dags/insert_stage.py): 
   Загрузка raw_data в stage слой.  
-- Запуск [task3](task2_core_insert.sql): 
+- Запуск [insert_core](dags/insert_core.py): 
   Загрузка в core слой. 
-- Запуск [task4](task3_data_mart_insert.sql)
+- Запуск [insert_data_mart](dags/insert_data_mart.py)
   Загрузка в data_mart слой.
 
  
