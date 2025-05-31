@@ -46,15 +46,13 @@ docker compose up
   ports: 5433:5432  
   
 
-**Схема работы ETL:** 
-- Запуск [transform_file](dags/transform_file.py):
-  Загрузка данных с сайта, очистка, логирование.
-- Запуск [insert_stage](dags/insert_stage.py): 
-  Загрузка raw_data в stage слой.  
-- Запуск [insert_core](dags/insert_core.py): 
-  Загрузка в core слой. 
-- Запуск [insert_data_mart](dags/insert_data_mart.py)
-  Загрузка в data_mart слой.
+### 📚 Схема работы ETL: 
+![DAGS](/images/tasks.jpg)
+
+  1️⃣Запуск [transform_file](dags/transform_file.py): Загрузка данных с сайта, очистка, логирование.  
+  2️⃣Запуск [insert_stage](dags/insert_stage.py): Загрузка raw_data в stage слой.    
+  3️⃣Запуск [insert_core](dags/insert_core.py): Загрузка в core слой.  
+  4️⃣Запуск [insert_data_mart](dags/insert_data_mart.py): Загрузка в data_mart слой.
 
  
 
