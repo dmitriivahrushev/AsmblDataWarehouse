@@ -1,4 +1,4 @@
-# DataWarehouse
+# AsmblDataWarehouse
 ![DWH](/images/DWH.jpg)
 Проект ProductionDashboard представляет собой решение, которое позволяет извлекать, трансформировать, загружать данные в базу данных и визуализировать их.
 
