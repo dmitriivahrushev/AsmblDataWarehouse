@@ -20,6 +20,7 @@
 ├── tmp_data/            # Хранение xlsx и csv файлов.
 ├──.gitignore/           # Файлы, игнорируемые Git-ом.
 ├── docker-compose.yaml/ # Плагины Airflow.
+├── download_dataset.py  # Скрипт загрузки датасета.
 ├── README.md/           # Информация о проекте.
 └──  requirements.txt/   # Зависимости проекта.
 ```
