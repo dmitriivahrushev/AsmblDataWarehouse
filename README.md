@@ -50,10 +50,16 @@ docker compose up
 ### 📚 Схема работы ETL: 
 ![DAGS](/images/tasks.jpg)
 
-  1️⃣Запуск [transform_file](dags/transform_file.py): Загрузка данных с сайта, очистка, логирование.  
-  2️⃣Запуск [insert_stage](dags/insert_stage.py): Загрузка raw_data в stage слой.    
-  3️⃣Запуск [insert_core](dags/insert_core.py): Загрузка в core слой.  
-  4️⃣Запуск [insert_data_mart](dags/insert_data_mart.py): Загрузка в data_mart слой.
+  1️⃣Запуск [download_dataset](/download_dataset.py): Загрузка данных с сайта.
+  2️⃣Запуск [transform_file](dags/transform_file.py): Очистка, логирование.    
+  3️⃣Запуск [insert_stage](dags/insert_stage.py): Загрузка raw_data в stage слой.   
+  4️⃣Запуск [insert_core](dags/insert_core.py): Загрузка в core слой.
+  5️⃣Запуск [insert_data_mart](dags/insert_data_mart.py): Загрузка в data_mart слой.
 
+## 🔧 Конфигурация
+
+### Порты и доступ
+- Airflow - `http://localhost:8080` | User: airflow, Pass: airflow |
+- Conn_Id - Postgres_dwh | Ports `5433:5432` | User: admin, Pass: admin, Database: dwh_db |
  
 

@@ -1,9 +1,9 @@
-from common_variables import OWNER, LAUNCH_TIME, PG_CONNECT
+from common_variables import OWNER, LAUNCH_TIME, PG_CONNECT, moscow_tz
 from airflow.providers.common.sql.operators.sql import SQLExecuteQueryOperator 
 from airflow.providers.postgres.hooks.postgres import PostgresHook
 from airflow.operators.python import PythonOperator
 from airflow.sensors.external_task import ExternalTaskSensor
-from airflow.utils.dates import days_ago
+from datetime import datetime as dt
 from airflow import DAG
 
 
@@ -53,7 +53,7 @@ def copy_to_postgres():
 
 args = {
     'owner': OWNER,
-    'start_date': days_ago(1)
+    'start_date': dt(2025, 6, 4, tzinfo=moscow_tz)
 }
 
 with DAG(

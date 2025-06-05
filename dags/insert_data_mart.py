@@ -1,7 +1,7 @@
-from common_variables import OWNER, PG_CONNECT, LAUNCH_TIME
+from common_variables import OWNER, PG_CONNECT, LAUNCH_TIME, moscow_tz
 from airflow.providers.common.sql.operators.sql import SQLExecuteQueryOperator
 from airflow.sensors.external_task import ExternalTaskSensor
-from airflow.utils.dates import days_ago
+from datetime import datetime as dt
 from airflow import DAG
 
 
@@ -47,7 +47,7 @@ update_data_mart = """
 
 args = {
     'owner': OWNER,
-    'start_date': days_ago(1)
+    'start_date': dt(2025, 6, 4, tzinfo=moscow_tz)
 }
 
 with DAG(

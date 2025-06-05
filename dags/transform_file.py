@@ -1,12 +1,11 @@
-from common_variables import OWNER, LAUNCH_TIME
+from common_variables import OWNER, LAUNCH_TIME, moscow_tz
 from airflow.operators.python import PythonOperator
-from airflow.utils.dates import days_ago
 from airflow import DAG
 from openpyxl import load_workbook
 from datetime import datetime as dt
 import os
 import csv
-import pytz
+
 
 
 """DAG выполняет следующие действия:
@@ -20,7 +19,7 @@ PATH_TO_CSV = '/opt/airflow/tmp_data/raw_data.csv'
 PATH_TO_LOG = '/opt/airflow/tmp_data/log.txt' 
 
 DAG_ID = 'transform_file'
-moscow_tz = pytz.timezone('Europe/Moscow')
+
 
 def transform_file():
     """Сохрание файла в формате csv."""   
@@ -65,7 +64,7 @@ def transform_file():
 
 args = {
     'owner': OWNER,
-    'start_date': days_ago(1)
+    'start_date': dt(2025, 6, 4, tzinfo=moscow_tz)
 }
 
 with DAG(
@@ -73,7 +72,9 @@ with DAG(
     default_args=args,
     schedule_interval=LAUNCH_TIME,
     catchup=False,
+    is_paused_upon_creation=True, 
     tags=['transform_file']
+    
 ) as dag:
     
     task1 = PythonOperator(
