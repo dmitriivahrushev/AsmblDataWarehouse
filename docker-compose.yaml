@@ -34,9 +34,26 @@ services:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
       POSTGRES_DB: dwh_db
-    restart: always
     ports:
     - 5433:5432
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "airflow"]
+      interval: 10s
+      retries: 5
+      start_period: 5s
+    restart: always
+  
+  superset:
+    image: apache/superset
+    environment:
+      SUPERSET_LOAD_EXAMPLES: no
+      SQLALCHEMY_DATABASE_URI: postgresql+psycopg2://admin:admin:@postgres_dwh/dwh_db
+      SUPERSET_SECRET_KEY: '0339df7402b1fe3c834b88de252a5c4df3ace7ad07f2782a7ebdd30ff4393382'
+    ports:
+    - 8088:8088
+    depends_on:
+      postgres_dwh:
+        condition: service_healthy
 
   postgres:
     image: postgres:13
