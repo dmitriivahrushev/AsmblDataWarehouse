@@ -76,16 +76,7 @@ docker exec -it asmbldatawarehouse-superset-1 superset fab create-admin \
 docker exec -it asmbldatawarehouse-superset-1 superset superset db upgrade
 ~~~
 
-<<<<<<< HEAD
 Данная команда первичную инициализацию Superset. Она создаёт начальные элементы (роли, группы, разрешения и проч.) и готовит среду к дальнейшему использованию.  
-=======
-Данная команда загружает демонстрационные примеры в Superset. Эти примеры включают предварительно созданные наборы данных, чарты и dashboards, позволяющие пользователям быстрее познакомиться с функциями и возможностями инструмента.
-~~~
-docker exec -it asmbldatawarehouse-superset-1 superset superset load_examples
-~~~
-
-Третья команда выполняет первичную инициализацию Superset. Она создаёт начальные элементы (роли, группы, разрешения и проч.) и готовит среду к дальнейшему использованию.  
->>>>>>> c2d13f406f5f1cab7ad80238fb280cbe029da476
 ~~~
 docker exec -it asmbldatawarehouse-superset-1 superset superset init
 ~~~
