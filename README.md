@@ -101,6 +101,6 @@ pip install psycopg2-binary
 
 ### Порты и доступ
 - Airflow - `http://localhost:8080` | User: airflow, Pass: airflow |
-- Conn_Id - Postgres_dwh | Ports `5433:5432` | User: admin, Pass: admin, Database: dwh_db |
- 
+- Conn_Id - Postgres_dwh | Ports `5433:5432` | User: admin, Pass: admin, Database: dwh_db |  
+- Superset - `http://localhost:80` | User: superset, Pass: superset |
 
